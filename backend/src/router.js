@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const clienteController = require('./controllers/clienteController');
+const clienteController = require('./controllers/pacientesController');
+const pacientesMiddlewares = require('./middlewares/pacientesMiddlewares')
 
-router.get('/clientes', clienteController.getAll);  
-
-
+router.get('/pacientes', clienteController.getAll);
+router.get('/dashboard', clienteController.countPacientesAndConsultas);    
+router.post('/create/paciente', pacientesMiddlewares.validateBody, clienteController.createPaciente);    
 
 module.exports = router; 
 
