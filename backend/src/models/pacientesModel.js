@@ -1,7 +1,23 @@
 const connection = require('./connection');
 
 const getAll = async () => {
-    const [clientes] = await connection.execute('SELECT * FROM pacientes');
+    const query = `
+        SELECT 
+            p.ID_paciente,
+            p.nome,
+            p.idade,
+            p.cpf,
+            COUNT(c.ID_consulta) AS numero_de_consultas,
+            MAX(c.data) AS data_ultima_consulta
+        FROM 
+            pacientes p
+        LEFT JOIN 
+            consultas c ON p.ID_paciente = c.ID_paciente
+        GROUP BY 
+            p.ID_paciente, p.nome, p.idade, p.cpf
+    `;
+
+    const [clientes] = await connection.execute(query);
     return clientes;
 }
 
@@ -22,9 +38,16 @@ const createPaciente = async (paciente) => {
     return createdPaciente;
 }
 
+const isCrnUnique = async (cpf) => {
+    const query = 'SELECT COUNT(*) as count FROM pacientes WHERE cpf = ?';
+    const [rows] = await connection.execute(query, [cpf]);
+    return rows[0].count === 0;
+};
+
 
 module.exports = {
     getAll,
     countPacientesAndConsultas,
-    createPaciente
+    createPaciente,
+    isCrnUnique
 }
