@@ -12,16 +12,16 @@ const nutricionistasMiddlewares = require('./middlewares/nutricionistasMiddlewar
 const authenticateToken = require('./middlewares/authMiddleware')
 
 
-router.get('/planoalimentar', authenticateToken, authenticateToken, planoAlimentarController.getPlanoAlimentarWithRefeicoes);
+router.get('/planoalimentar', planoAlimentarController.getPlanoAlimentarWithRefeicoes);
 router.get('/consultas/detalhes/:id', consultasController.getConsultasWithDetails);
-router.get('/pacientes', authenticateToken, clienteController.getAll);
-router.get('/dashboard', authenticateToken, clienteController.countPacientesAndConsultas);
-router.get('/consultas', authenticateToken, consultasController.getAllConsultas);
+router.get('/pacientes', clienteController.getAll);
+router.get('/dashboard', clienteController.countPacientesAndConsultas);
+router.get('/consultas', consultasController.getAllConsultas);
 
 
 
-router.post('/create/paciente', authenticateToken, pacientesMiddlewares.validateBody, clienteController.createPaciente);
-router.post('/create/consulta', authenticateToken, consultasMiddlewares.validarDadosConsulta, consultasController.createConsulta);
+router.post('/create/paciente', pacientesMiddlewares.validateBody, clienteController.createPaciente);
+router.post('/create/consulta', consultasMiddlewares.validarDadosConsulta, consultasController.createConsulta);
 router.post('/create/nutricionista', nutricionistasMiddlewares.validarNutricionista, nutricionistasController.createNutricionista);
 router.post('/login', nutricionistasController.loginNutricionista);
 

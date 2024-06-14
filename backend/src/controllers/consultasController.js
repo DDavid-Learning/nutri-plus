@@ -2,7 +2,7 @@ const { response } = require("express")
 const consultasModel = require('../models/consultasModel')
 
 const getAllConsultas = async (_req, res) => {
-    const [consultas] = await consultasModel.getConsultas()
+    const consultas = await consultasModel.getConsultas()
     return res.status(200).json(consultas)
 }
 

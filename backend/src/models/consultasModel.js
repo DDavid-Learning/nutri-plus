@@ -2,23 +2,30 @@ const connection = require('./connection');
 
 const getConsultas = async () => {
     const query = `
-        SELECT 
-            c.ID_consulta,
-            p.nome AS nome_paciente,
-            n.nome AS nome_nutricionista,
-            c.data,
-            c.tipo_pagamento
-        FROM 
-            consultas c
-        JOIN 
-            pacientes p ON c.ID_paciente = p.ID_paciente
-        JOIN 
-            nutricionistas n ON c.ID_nutricionista = n.ID_nutricionista
+      SELECT 
+        c.ID_consulta,
+        p.nome AS nome_paciente,
+        n.nome AS nome_nutricionista,
+        c.data,
+        c.tipo_pagamento
+      FROM 
+        consultas c
+      JOIN 
+        pacientes p ON c.ID_paciente = p.ID_paciente
+      JOIN 
+        nutricionistas n ON c.ID_nutricionista = n.ID_nutricionista
     `;
-
-    const [consultas] = await connection.execute(query);
-    return consultas;
-}
+  
+    try {
+      const [consultas] = await connection.execute(query);
+      console.log('Consultas:', consultas); // Adicione um log para verificar os dados retornados
+      return consultas;
+    } catch (error) {
+      console.error('Erro ao executar a query:', error);
+      throw error;
+    }
+  };
+  
 
 
 const cadastrarConsulta = async (dados) => {
