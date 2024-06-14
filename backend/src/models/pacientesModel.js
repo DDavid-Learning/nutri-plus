@@ -7,6 +7,8 @@ const getAll = async () => {
             p.nome,
             p.idade,
             p.cpf,
+            p.email,
+            p.altura,
             COUNT(c.ID_consulta) AS numero_de_consultas,
             MAX(c.data) AS data_ultima_consulta
         FROM 
@@ -32,9 +34,9 @@ const countPacientesAndConsultas = async () => {
 }
 
 const createPaciente = async (paciente) => {
-    const { nome, idade, cpf } = paciente;
-    const query = 'INSERT INTO pacientes(nome, idade, cpf) VALUES (?, ?, ?)';
-    const [createdPaciente] = await connection.execute(query, [nome, idade, cpf])
+    const { nome, idade, cpf, email, altura } = paciente;
+    const query = 'INSERT INTO pacientes(nome, idade, cpf, email, altura) VALUES (?, ?, ?, ?, ?)';
+    const [createdPaciente] = await connection.execute(query, [nome, idade, cpf, email, altura])
     return createdPaciente;
 }
 

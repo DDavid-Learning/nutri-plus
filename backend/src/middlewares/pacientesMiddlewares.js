@@ -32,7 +32,7 @@ const isCPFValid = (cpf) => {
 }
 
 const validateBody = async (req, res, next) => {
-    const { nome, idade, cpf } = req.body;
+    const { nome, idade, cpf, email, altura } = req.body;
 
     if (!nome) {
         return res.status(400).json({ message: 'O campo "nome" é obrigatório.' });
@@ -40,6 +40,14 @@ const validateBody = async (req, res, next) => {
 
     if (idade === undefined || idade === null) {
         return res.status(400).json({ message: 'O campo "idade" é obrigatório.' });
+    }
+
+    if (email === undefined || email === null) {
+        return res.status(400).json({ message: 'O campo "email" é obrigatório.' });
+    }
+
+    if (altura === undefined || idade === altura) {
+        return res.status(400).json({ message: 'O campo "altura" é obrigatório.' });
     }
 
     if (!cpf) {
